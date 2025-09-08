@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+
+    stages {
+        // Stage for checking out the repository from GitHub
+        stage('Checkout Repository') {
+            steps {
+                // Checkout the repository from GitHub using scmGit
+                checkout scmGit(
+                    branches: [[name: '*/main']],  // Checkout the 'main' branch
+                    browser: github('https://github.com/adarshadshetty09/jenkins'),  // GitHub repository URL
+                    extensions: [],  // No extensions are added for this checkout step
+                    userRemoteConfigs: [
+                        [
+                            credentialsId: 'git-cred',  // Credentials ID to access GitHub
+                            url: 'https://github.com/adarshadshetty09/jenkins.git'  // Repository URL
+                        ]
+                    ]
+                )
+            }
+        }
+
+        // Stage to run the banner.sh script
+        stage('Run Banner Script') {
+            steps {
+                script {
+                    // Make banner.sh executable and run it
+                    sh 'chmod +x banner.sh'  // Grant execute permissions to the script
+                    sh './banner.sh'  // Execute the banner.sh script
+                }
+            }
+        }
+    }
+}
