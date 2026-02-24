@@ -10,12 +10,18 @@ pipeline {
     }
 
     stage('fileCreate') {
-      steps {
+        agent { label 'agent2' }
+        steps {
         writeFile file: 'test.txt', text: 'Jenkins learning!'
         sh 'ls -l'
         sh 'pwd'
       }
     }
-
-  }
+    stage('fileCreateInHome') {
+        agent { label 'agent' }
+        steps {
+            sh "echo 'Hii Adarsha In Home Dir' > /home/adev4769_gmail_com/test.txt"
+            }
+        }
+    }
 }
