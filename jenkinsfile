@@ -1,0 +1,21 @@
+pipeline {
+  agent any
+
+  stages {
+
+    stage('Hello') {
+      steps {
+        echo 'Hello World'
+      }
+    }
+
+    stage('fileCreate') {
+      steps {
+        writeFile file: 'test.txt', text: 'Jenkins learning!'
+        sh 'ls -l'
+        sh 'pwd'
+      }
+    }
+
+  }
+}
