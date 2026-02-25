@@ -26,5 +26,12 @@ pipeline {
             sh 'ip r'
             }
         }
+    stage('webhookTrigger') {
+        agent { label 'dev' }
+        steps {
+            echo "Hurray Webhook Worked !!!"
+            sh 'ip r'
+            }
+        }
     }
 }
