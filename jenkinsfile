@@ -6,6 +6,7 @@ pipeline {
     stage('Hello') {
       steps {
         echo 'Hello World'
+        sh 'ip r'
       }
     }
 
@@ -15,12 +16,14 @@ pipeline {
         writeFile file: 'test.txt', text: 'Jenkins learning!'
         sh 'ls -l'
         sh 'pwd'
+        sh 'ip r'
       }
     }
     stage('fileCreateInHome') {
         agent { label 'agent' }
         steps {
             sh "echo 'Hii Adarsha In Home Dir' > /home/adev4769_gmail_com/test.txt"
+            sh 'ip r'
             }
         }
     }
