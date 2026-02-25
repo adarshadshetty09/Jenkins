@@ -26,5 +26,12 @@ pipeline {
             sh 'ip r'
             }
         }
+    stage('fileCreateInHomeforTest') {
+        agent { label 'dev' }
+        steps {
+            sh "echo 'Hii Adarsha In Home Dir' > /home/adev4769_gmail_com/test1.txt"
+            sh 'ip r'
+            }
+        }
     }
 }
