@@ -5,11 +5,7 @@
     state: started
 
 - name: Execute create database script
-  become: yes
-  shell: mysql < {{ role_path }}/files/01_create_database.sql
-
-- name: Execute create database script
-  shell: mysql -u root -proot < /tmp/01_create_database.sql
+  shell: mysql -u root -proot < {{ role_path }}/files/01_create_database.sql
 
 - name: Copy create tables script
   copy:
