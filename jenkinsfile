@@ -31,7 +31,6 @@ pipeline {
         steps {
             echo "Hurray Webhook Worked !!!"
             sh 'ip r'
-            sh 'ss tunlp'
             }
         }
     }
