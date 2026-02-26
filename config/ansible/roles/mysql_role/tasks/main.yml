@@ -4,10 +4,8 @@
     name: mysqld
     state: started
 
-- name: Copy create database script
-  copy:
-    src: 01_create_database.sql
-    dest: /tmp/01_create_database.sql
+- name: Execute create database script
+  shell: mysql < {{ role_path }}/files/01_create_database.sql
 
 - name: Execute create database script
   shell: mysql -u root -proot < /tmp/01_create_database.sql
