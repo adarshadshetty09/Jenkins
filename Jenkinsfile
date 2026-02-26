@@ -35,6 +35,14 @@ pipeline {
             steps {
                 echo 'Hello World'
                 sh 'ip r'
+                sh 'pwd'
+            }
+        }
+        stage('Execute the ansible file to install the mysql') {
+            agent { label 'dev' } 
+            steps {
+                echo 'Hello World'
+                sh 'ip r'
             }
         }
     }
