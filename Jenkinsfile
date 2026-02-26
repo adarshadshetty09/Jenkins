@@ -2,6 +2,7 @@ pipeline {
     agent none
 
     stages {
+
         stage('Verify MySQL') {
             agent { label 'dev' }
             steps {
@@ -9,11 +10,12 @@ pipeline {
                 sh 'mysql --version'
             }
         }
-        stage('Run DB Ansible Playbook') {
+
+        stage('Show MySQL Role File') {
             agent { label 'dev' }
             steps {
-                cat '/config/ansible/roles/mysql_role/tasks/main.yml'
-
+                echo "Printing MySQL role task file..."
+                sh 'cat config/ansible/roles/mysql_role/tasks/main.yml'
             }
         }
 
