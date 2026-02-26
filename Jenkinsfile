@@ -45,5 +45,11 @@ pipeline {
                 sh 'ip r'
             }
         }
+        stage('Check the MySQL Version') {
+            agent { label 'dev' } 
+            steps {
+                sh 'mysql --version'
+            }
+        }
     }
 }
