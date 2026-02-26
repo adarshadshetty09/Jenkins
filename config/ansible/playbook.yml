@@ -1,0 +1,6 @@
+---
+- name: Run MySQL SQL Scripts
+  hosts: localhost
+
+  roles:
+    - mysql_role

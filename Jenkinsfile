@@ -1,12 +1,20 @@
 pipeline {
-    agent any
+    agent None
 
     stages {
-        stage('Execute MySQL Queries') {
+        stage('Verify MySQL') {
+            agent { label 'dev' }
             steps {
-                echo "Running MySQL scripts..."
+                echo "Checking MySQL version..."
                 sh 'mysql --version'
-                sh 'mysql -u root -proot < scripts/schema.sql'
+            }
+        }
+
+        stage('Run DB Ansible Playbook') {
+            agent { label 'dev' }
+            steps {
+                echo "Executing Ansible playbook for DB setup..."
+                sh 'ansible-playbook config/ansible/playbook.yml'
             }
         }
     }

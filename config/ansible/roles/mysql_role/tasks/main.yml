@@ -1,2 +1,14 @@
 ---
-# tasks file for mysql_role
+- name: Ensure MySQL service is running
+  service:
+    name: mysqld
+    state: started
+
+- name: Execute create database script
+  shell: mysql -u root -proot < config/ansible/scripts/01_create_database.sql
+
+- name: Execute create tables script
+  shell: mysql -u root -proot < config/ansible/scripts/02_create_tables.sql
+
+- name: Execute insert data script
+  shell: mysql -u root -proot < config/ansible/scripts/03_insert_data.sql
