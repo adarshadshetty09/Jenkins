@@ -41,7 +41,7 @@ pipeline {
         stage('Execute the ansible file to install the mysql') {
             agent { label 'dev' } 
             steps {
-                echo 'Hello World'
+                sh 'ansible-playbook config/mysql/main.yaml'
                 sh 'ip r'
             }
         }
