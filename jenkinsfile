@@ -1,37 +1,10 @@
 pipeline {
-  agent any
+    agent any
 
-  stages {
-
-    stage('Hello') {
-      steps {
-        echo 'Hello World'
-        sh 'ip r'
-      }
-    }
-
-    stage('fileCreate') {
-        agent { label 'uat' }
-        steps {
-        writeFile file: 'test.txt', text: 'Jenkins learning!'
-        sh 'ls -l'
-        sh 'pwd'
-        sh 'ip r'
-      }
-    }
-    stage('fileCreateInHome') {
-        agent { label 'dev' }
-        steps {
-            sh "echo 'Hii Adarsha In Home Dir' > /home/adev4769_gmail_com/test.txt"
-            sh 'ip r'
-            }
-        }
-    stage('webhookTrigger') {
-        agent { label 'dev' }
-        steps {
-            echo "Hurray Webhook Worked !!!"
-            sh 'ip r'
-            echo "MYSQL"
+    stages {
+        stage('Ansible Configuration') {
+            steps {
+                sh 'ansible-playbook configure.yml'
             }
         }
     }
