@@ -5,6 +5,7 @@
     state: started
 
 - name: Execute create database script
+  become: yes
   shell: mysql < {{ role_path }}/files/01_create_database.sql
 
 - name: Execute create database script
