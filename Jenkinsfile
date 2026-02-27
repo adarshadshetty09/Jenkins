@@ -38,27 +38,27 @@ pipeline {
                 sh 'pwd'
             }
         }
-        stage('Execute the ansible file to install the mysql') {
+        stage('Execute the ansible file to install the mysql dev') {
             agent { label 'dev' } 
             steps {
                 sh 'ansible-playbook config/mysql/main.yaml'
                 sh 'ip r'
             }
         }
-        stage('Check the MySQL Version') {
+        stage('Check the MySQL Version dev') {
             agent { label 'dev' } 
             steps {
                 sh 'mysql --version'
             }
         }
-        stage('Execute the ansible file to install the mysql') {
+        stage('Execute the ansible file to install the mysql UAT') {
             agent { label 'uat' } 
             steps {
                 sh 'ansible-playbook config/mysql/main.yaml'
                 sh 'ip r'
             }
         }
-        stage('Check the MySQL Version') {
+        stage('Check the MySQL Version UAT') {
             agent { label 'uat' } 
             steps {
                 sh 'mysql --version'
