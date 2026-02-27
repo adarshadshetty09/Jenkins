@@ -2,7 +2,12 @@ pipeline {
     agent none
 
     stages {
-
+        stage('Print the Jenkinsfile'){
+            agent {label 'dev'}
+            steps{
+                sh 'cat Jenkinsfile'
+            }
+        }
         stage('Verify MySQL') {
             agent { label 'dev' }
             steps {
