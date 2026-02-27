@@ -502,9 +502,6 @@ Answer these and I’ll guide you to the next real-world setup improvement.
 You’re already beyond beginner level.
 Now we sharpen you into **production DevOps engineer** 🔥
 
-
-
-
 ### Change the external ip in backend  /or/  Reserve the external IP
 
 ```
@@ -518,3 +515,274 @@ Now we sharpen you into **production DevOps engineer** 🔥
 [adev4769_gmail_com@jenkins-master ~]$
 
 ```
+
+### multibranch webhook scan plugin for multi branch
+
+
+
+
+
+```
+pipeline {
+    agent none
+
+    stages {
+
+        stage('Print Jenkinsfile') {
+            agent { label 'dev' }
+            steps {
+                sh 'cat Jenkinsfile'
+            }
+        }
+
+        stage('Dev - Setup DB') {
+            agent { label 'dev' }
+            steps {
+                echo "Checking MySQL version..."
+                sh 'mysql --version'
+
+                echo "Printing MySQL role task file..."
+                sh 'cat config/ansible/roles/mysql_role/tasks/main.yml'
+
+                echo "Running Ansible playbook for DEV..."
+                sh 'ansible-playbook config/ansible/playbook.yml -i config/ansible/inventory/dev'
+            }
+        }
+
+        stage('UAT - Setup DB') {
+            agent { label 'uat' }  
+            steps {
+                echo "Checking MySQL version..."
+                sh 'mysql --version'
+
+                echo "Printing MySQL role task file..."
+                sh 'cat config/ansible/roles/mysql_role/tasks/main.yml'
+
+                echo "Running Ansible playbook for UAT..."
+                sh 'ansible-playbook config/ansible/playbook.yml -i config/ansible/inventory/uat'
+            }
+        }
+    }
+}
+```
+
+
+
+
+
+
+Excellent question 👌🔥
+This is **very important** for secure DevOps pipelines.
+
+You’re asking about this line:
+
+```groovy
+withCredentials([string(credentialsId: 'mysql-root-pass-uat', variable: 'DB_PASS')])
+```
+
+Let’s break it down clearly 👇
+
+---
+
+# 🔐 What Is `withCredentials`?
+
+`withCredentials` is a **Jenkins step** that:
+
+✅ Fetches a secret from Jenkins Credentials
+✅ Temporarily stores it in an environment variable
+✅ Hides it from logs
+✅ Makes it available only inside that block
+
+---
+
+# 🧠 Breaking This Line
+
+```groovy
+withCredentials([
+    string(credentialsId: 'mysql-root-pass-uat', 
+           variable: 'DB_PASS')
+])
+```
+
+### 1️⃣ `credentialsId: 'mysql-root-pass-uat'`
+
+This is the **name of the credential stored in Jenkins**.
+
+Go to:
+
+```
+Manage Jenkins → Credentials
+```
+
+You created a secret like:
+
+* Type: Secret text
+* ID: `mysql-root-pass-uat`
+* Value: `MySecretPassword123`
+
+That ID is used here.
+
+---
+
+### 2️⃣ `variable: 'DB_PASS'`
+
+This means:
+
+👉 Jenkins will take the secret value
+👉 Store it temporarily in environment variable
+👉 Name that variable `DB_PASS`
+
+So inside the block:
+
+```groovy
+${DB_PASS}
+```
+
+Contains the actual MySQL password.
+
+---
+
+# 🔄 What Actually Happens Internally
+
+Let’s say:
+
+Credential value = `Root@123`
+
+Then inside this block:
+
+```groovy
+sh """
+    ansible-playbook \
+    -e mysql_root_password=${DB_PASS} \
+    config/ansible/playbook.yml
+"""
+```
+
+Jenkins replaces:
+
+```groovy
+${DB_PASS}
+```
+
+With:
+
+```
+Root@123
+```
+
+But 🔐 it masks it in logs like:
+
+```
+********
+```
+
+---
+
+# 🔥 Why We Don’t Hardcode Password
+
+❌ Bad practice:
+
+```groovy
+-e mysql_root_password=Root@123
+```
+
+Because:
+
+* Password visible in Git
+* Visible in Jenkins logs
+* Security risk
+
+---
+
+# ✅ Why `DB_PASS` Name?
+
+`DB_PASS` is just a **temporary variable name**.
+
+You can name it anything:
+
+```groovy
+variable: 'MYSQL_PASSWORD'
+variable: 'ROOT_PASS'
+variable: 'SECRET'
+```
+
+It’s just like:
+
+```bash
+export DB_PASS=Root@123
+```
+
+Inside that block only.
+
+---
+
+# 📦 Think Of It Like This
+
+Imagine:
+
+Jenkins Vault → Locker → Password
+`withCredentials` → Opens locker
+`variable: DB_PASS` → Gives you key name
+Block ends → Locker closes
+
+---
+
+# 🔐 Important Security Behavior
+
+Outside the block:
+
+```groovy
+echo "${DB_PASS}"
+```
+
+Will NOT work.
+
+Because variable only exists inside `withCredentials`.
+
+---
+
+# 🚀 Advanced DevOps Tip (Important)
+
+Right now you are using:
+
+```groovy
+string(credentialsId: ...)
+```
+
+Other types available:
+
+```groovy
+usernamePassword(...)
+file(...)
+sshUserPrivateKey(...)
+```
+
+Example for DB user + password:
+
+```groovy
+withCredentials([usernamePassword(
+    credentialsId: 'mysql-creds',
+    usernameVariable: 'DB_USER',
+    passwordVariable: 'DB_PASS'
+)])
+```
+
+---
+
+# 🎯 Final Simple Explanation
+
+That line means:
+
+👉 "Jenkins, take the stored secret with ID `mysql-root-pass-uat`,
+👉 Put its value in variable called `DB_PASS`,
+👉 Let me use it securely inside this block."
+
+---
+
+If you want, I can now explain:
+
+* How Jenkins masks secrets internally
+* How to debug credential errors
+* Or how to securely pass secrets to Ansible Vault
+
+Tell me what you want next 😄🔥
