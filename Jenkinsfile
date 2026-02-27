@@ -3,13 +3,6 @@ pipeline {
 
     stages {
 
-        stage('Print the Jenkinsfile') {
-            agent { label 'dev' }
-            steps {
-                sh 'cat Jenkinsfile'
-            }
-        }
-
         /* =========================
            DEV ENVIRONMENT
         ========================== */
@@ -19,14 +12,6 @@ pipeline {
             steps {
                 echo "Checking MySQL version on DEV..."
                 sh 'mysql --version'
-            }
-        }
-
-        stage('Show MySQL Role File - DEV') {
-            agent { label 'dev' }
-            steps {
-                echo "Printing MySQL role task file (DEV)..."
-                sh 'cat config/ansible/roles/mysql_role/tasks/main.yml'
             }
         }
 
@@ -54,14 +39,6 @@ pipeline {
             steps {
                 echo "Checking MySQL version on UAT..."
                 sh 'mysql --version'
-            }
-        }
-
-        stage('Show MySQL Role File - UAT') {
-            agent { label 'uat' }
-            steps {
-                echo "Printing MySQL role task file (UAT)..."
-                sh 'cat config/ansible/roles/mysql_role/tasks/main.yml'
             }
         }
 
