@@ -131,9 +131,6 @@ each has 2 executors
 → total parallel builds = 4
 ```
 
-
-
-
 Great choice 👍 Jenkins is one of the most important tools in DevOps.
 
 ---
@@ -303,9 +300,6 @@ If you tell me:
 * 🐳 If you know Docker
 
 I can create a **personalized 30-day Jenkins learning plan** for you.
-
-
-
 
 That’s great 👏🔥
 You’re already at **real DevOps level setup** if you have:
@@ -507,3 +501,20 @@ Answer these and I’ll guide you to the next real-world setup improvement.
 
 You’re already beyond beginner level.
 Now we sharpen you into **production DevOps engineer** 🔥
+
+
+
+
+### Change the external ip in backend  /or/  Reserve the external IP
+
+```
+[adev4769_gmail_com@jenkins-master ~]$ sudo vim /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
+[adev4769_gmail_com@jenkins-master ~]$ sudo systemctl restart jenkins
+[adev4769_gmail_com@jenkins-master ~]$ cat /var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml
+<?xml version='1.1' encoding='UTF-8'?>
+<jenkins.model.JenkinsLocationConfiguration>
+  <jenkinsUrl>http://34.70.25.169:8080/</jenkinsUrl>
+</jenkins.model.JenkinsLocationConfiguration>
+[adev4769_gmail_com@jenkins-master ~]$
+
+```
