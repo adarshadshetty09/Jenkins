@@ -51,5 +51,18 @@ pipeline {
                 sh 'mysql --version'
             }
         }
+        stage('Execute the ansible file to install the mysql') {
+            agent { label 'uat' } 
+            steps {
+                sh 'ansible-playbook config/mysql/main.yaml'
+                sh 'ip r'
+            }
+        }
+        stage('Check the MySQL Version') {
+            agent { label 'uat' } 
+            steps {
+                sh 'mysql --version'
+            }
+        }
     }
 }
