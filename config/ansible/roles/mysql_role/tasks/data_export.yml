@@ -1,0 +1,14 @@
+- name: Export query result to CSV
+  shell: |
+    mysql -u root -p'{{ mysql_root_password }}' {{ mysql_database }} \
+    --batch --raw \
+    < {{ role_path }}/files/04_export_query.sql \
+    | sed 's/\t/,/g' > /tmp/exported_data.csv
+  args:
+    executable: /bin/bash
+
+- name: Fetch exported CSV to Jenkins workspace
+  fetch:
+    src: /tmp/exported_data.csv
+    dest: ./exports/
+    flat: yes

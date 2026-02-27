@@ -1,3 +1,31 @@
+# ---
+# - name: Ensure MySQL service is running
+#   service:
+#     name: mysqld
+#     state: started
+
+# - name: Execute create database script
+#   shell: mysql -u root -proot < {{ role_path }}/files/01_create_database.sql
+
+# - name: Copy create tables script
+#   copy:
+#     src: 02_create_tables.sql
+#     dest: /tmp/02_create_tables.sql
+
+# - name: Execute create tables script
+#   shell: mysql -u root -proot < /tmp/02_create_tables.sql
+
+# - name: Copy insert data script
+#   copy:
+#     src: 03_insert_data.sql
+#     dest: /tmp/03_insert_data.sql
+
+# - name: Execute insert data script
+#   shell: mysql -u root -proot < /tmp/03_insert_data.sql
+
+
+
+
 ---
 - name: Ensure MySQL service is running
   service:
@@ -5,20 +33,13 @@
     state: started
 
 - name: Execute create database script
-  shell: mysql -u root -proot < {{ role_path }}/files/01_create_database.sql
-
-- name: Copy create tables script
-  copy:
-    src: 02_create_tables.sql
-    dest: /tmp/02_create_tables.sql
+  shell: mysql -u root -p'{{ mysql_root_password }}' < {{ role_path }}/files/01_create_database.sql
 
 - name: Execute create tables script
-  shell: mysql -u root -proot < /tmp/02_create_tables.sql
-
-- name: Copy insert data script
-  copy:
-    src: 03_insert_data.sql
-    dest: /tmp/03_insert_data.sql
+  shell: mysql -u root -p'{{ mysql_root_password }}' < {{ role_path }}/files/02_create_tables.sql
 
 - name: Execute insert data script
-  shell: mysql -u root -proot < /tmp/03_insert_data.sql
+  shell: mysql -u root -p'{{ mysql_root_password }}' < {{ role_path }}/files/03_insert_data.sql
+
+
+- include_tasks: data_export.yml

@@ -56,5 +56,18 @@ pipeline {
                 }
             }
         }
+
+        /* =========================
+           DATA EXPORT STAGE
+        ========================== */
+
+        stage('Export Data and Archive CSV') {
+            agent { label 'dev' }   // change to 'uat' if needed
+            steps {
+                echo "Exporting query result and archiving CSV..."
+
+                archiveArtifacts artifacts: 'exports/*.csv', fingerprint: true
+            }
+        }
     }
 }
