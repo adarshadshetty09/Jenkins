@@ -22,7 +22,7 @@ pipeline {
         stage('Verify YBA CLI') {
             steps {
                 sh """
-                ${YBA_BIN} version
+                ${YBA_BIN} --version
                 """
             }
         }
