@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'dev' }
+    agent any
 
     options {
         timeout(time: 90, unit: 'MINUTES')
@@ -19,6 +19,14 @@ pipeline {
     }
 
     stages {
+
+        stage('See the Jenkinsfile') {
+            steps {
+                sh """
+                cat Jenkinsfile
+                """
+            }
+        }
 
         stage('Verify YBA CLI') {
             steps {
