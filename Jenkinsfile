@@ -172,10 +172,10 @@ pipeline {
 
     post {
         success {
-            echo "Universe deployment completed successfully 🚀"
+            echo "Universe deployment completed successfully "
         }
         failure {
-            echo "Universe deployment FAILED ❌"
+            echo "Universe deployment FAILED "
         }
     }
 }
