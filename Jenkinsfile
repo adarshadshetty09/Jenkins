@@ -12,10 +12,9 @@ pipeline {
         string(name: 'YB_VERSION', defaultValue: '2024.2.4.0-b89')
     }
 
-    environment {
+    environment {   
         YBA_HOST = "https://136.111.218.140:443"
-        YBA_PATH = "/mnt/yba/software/2024.2.4.0-b89/yb-platform/yugaware/yba-cli/yba_cli-2024.2.4.0-b89-linux-amd64"
-        CONTROL_NODE = "control-node"
+        YBA_PATH = "/home/adev4769_gmail_com/yba"
     }
 
     stages {
