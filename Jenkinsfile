@@ -13,7 +13,7 @@ pipeline {
     }
 
     environment {
-        YBA_HOST = "https://104.155.132.62:443"
+        YBA_HOST = "https://136.111.218.140:443"
         YBA_PATH = "/home/adev4769_gmail_com"
         CONTROL_NODE = "control-node"
     }
