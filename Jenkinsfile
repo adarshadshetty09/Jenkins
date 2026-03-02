@@ -62,7 +62,7 @@ pipeline {
                       --zone zone-name="$ZONE_NAME"::region-name="$REGION_NAME" \
                       --ssh-user ybaadmin \
                       --ssh-keypair-name ybaadmin \
-                      --ssh-keypair-file-path /home/ybaadmin/.ssh/id_rsa \
+                      --ssh-keypair-file-path /home/adev4769_gmail_com/id_rsa \
                       -H "$YBA_HOST" --insecure \
                       -a "$YBA_TOKEN" || echo "Provider exists"
 
