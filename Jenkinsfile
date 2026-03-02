@@ -14,11 +14,22 @@ pipeline {
 
     environment {
         YBA_HOST = "https://104.155.132.62:443"
-        YBA_PATH = "/mnt/yba/software/2024.2.4.0-b89/yb-platform/yugaware/yba-cli/yba_cli-2024.2.4.0-b89-linux-amd64"
+        YBA_PATH = "/home/adev4769_gmail_com"
         CONTROL_NODE = "control-node"
     }
 
     stages {
+
+        stage('Verify YBA CLI') {
+            steps {
+                sh """
+                ssh ybaadmin@${CONTROL_NODE} '
+                cd ${YBA_PATH}
+                ./yba version
+                '
+                """
+            }
+        }
 
         stage('Register YBA CLI (If Needed)') {
             steps {
@@ -44,17 +55,6 @@ pipeline {
             }
         }
 
-        stage('Verify YBA CLI') {
-            steps {
-                sh """
-                ssh ybaadmin@${CONTROL_NODE} '
-                cd ${YBA_PATH}
-                ./yba version
-                '
-                """
-            }
-        }
-
         stage('Create Provider') {
             steps {
                 sh """
@@ -66,7 +66,7 @@ pipeline {
                   --zone zone-name=mum1::region-name=south-asia \
                   --ssh-user ybaadmin \
                   --ssh-keypair-name ybaadmin \
-                  --ssh-keypair-file-path /home/ybaadmin/.ssh/id_rsa \
+                  --ssh-keypair-file-path /home/adev4769_gmail_com/id_rsa \
                   -H ${YBA_HOST} || echo "Provider may already exist"
                 '
                 """
